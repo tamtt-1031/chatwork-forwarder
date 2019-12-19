@@ -2,7 +2,6 @@
 @section('content')
 <link rel="stylesheet" href="{{ mix('/css/style.css') }}">
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
 <!-- Datatables Header -->
 <ul class="breadcrumb breadcrumb-top">
     <li>Dashboard</li>
@@ -15,13 +14,27 @@
         <div class="row">
             <div class="col-sm-6 col-lg-3">
                 <!-- Widget -->
-                <a href="{{ route('webhooks.index') }}" class="widget widget-hover-effect1">
+                <a href="{{ route('users.index') }}" class="widget widget-hover-effect1">
+                    <div class="widget-simple">
+                        <div class="widget-icon pull-left themed-background-autumn animation-fadeIn">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <h3 class="widget-content text-right animation-pullDown">
+                             <strong>{{ $countData['user'] }}</strong> Users<br>
+                        </h3>
+                    </div>
+                </a>
+                <!-- END Widget -->
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <!-- Widget -->
+                <a href="{{ route('admin.webhooks.index', ['search[name]' => '', 'search[status]' => 1]) }}" class="widget widget-hover-effect1">
                     <div class="widget-simple">
                         <div class="widget-icon pull-left themed-background-spring animation-fadeIn">
                             <i class="fa fa-desktop"></i>
                         </div>
                         <h3 class="widget-content text-right animation-pullDown">
-                             <strong>{{ $countData['webhook'] }}</strong> Webhooks<br>
+                             <strong>{{ $countData['enabledWebhook'] }}</strong> Enabled Webhooks<br>
                         </h3>
                     </div>
                 </a>
@@ -29,13 +42,13 @@
             </div>
             <div class="col-sm-6 col-lg-3">
                 <!-- Widget -->
-                <a href="/history" class="widget widget-hover-effect1">
+                <a href="{{ route('admin.webhooks.index', ['search[name]' => '', 'search[status]' => 0]) }}" class="widget widget-hover-effect1">
                     <div class="widget-simple">
-                        <div class="widget-icon pull-left themed-background-autumn animation-fadeIn">
-                            <i class="fa fa-history"></i>
+                        <div class="widget-icon pull-left themed-background-fire animation-fadeIn">
+                            <i class="fa fa-desktop"></i>
                         </div>
                         <h3 class="widget-content text-right animation-pullDown">
-                             <strong>{{ $countData['payloadHistory'] }}</strong> Payload Histories<br>
+                             <strong>{{ $countData['disabledWebhook'] }}</strong> Disabled Webhooks<br>
                         </h3>
                     </div>
                 </a>
@@ -43,21 +56,7 @@
             </div>
             <div class="col-sm-6 col-lg-3">
                 <!-- Widget -->
-                <a href="/history" class="widget widget-hover-effect1">
-                    <div class="widget-simple">
-                        <div class="widget-icon pull-left themed-background-muted animation-fadeIn">
-                            <i class="fa fa-history"></i>
-                        </div>
-                        <h3 class="widget-content text-right animation-pullDown">
-                             <strong>{{ $countData['messageHistory'] }}</strong> Message Histories<br>
-                        </h3>
-                    </div>
-                </a>
-                <!-- END Widget -->
-            </div>
-            <div class="col-sm-6 col-lg-3">
-                <!-- Widget -->
-                <a href="{{ route('bots.index') }}" class="widget widget-hover-effect1">
+                <a href="#" class="widget widget-hover-effect1">
                     <div class="widget-simple">
                         <div class="widget-icon pull-left themed-background-amethyst animation-fadeIn">
                             <i class="fa fa-reddit"></i>
@@ -75,10 +74,9 @@
 <div class="block full">
     <div id="page-content">
         <div class="row">
-
             <form method="GET" action="{{ route('dashboard.index') }}">
                 <div class="col-sm-6 col-lg-3">
-                    <input type="text" id="date-ranger" name="daterange" class="form-control input-datepicker" value="{{ request('daterange') ?? '' }}" />
+                    <input type="text" id="date-ranger" name="daterange" class="form-control input-datepicker" value="{{ request('statistic')['daterange'] ?? '' }}" />
                 </div>
                 <button class="btn btn-md btn-search"><i class="fa fa-bar-chart-o"></i> Statistic</button>
             </form>
